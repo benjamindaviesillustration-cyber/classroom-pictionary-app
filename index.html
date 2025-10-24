@@ -1,0 +1,90 @@
+<div id="drawing-tools">
+    <button class="tool-btn" data-tool="brush" data-color="#000000">Black</button>
+    <label for="colorPicker">Color:</label>
+    <input type="color" id="colorPicker" value="#000000">
+
+    <label for="lineWidthSlider">Width:</label>
+    <input type="range" id="lineWidthSlider" min="1" max="20" value="5">
+    <span id="lineWidthDisplay">5px</span>
+
+    <button id="undoBtn">Undo</button> 
+    </div> <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Revision Pictionary 🎨</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="app">
+        <section id="lobby-screen" class="screen active">
+            <h1>Classroom Revision Pictionary</h1>
+            <div id="auth-area">
+                <input type="text" id="username-input" placeholder="Enter Username" maxlength="15">
+                <button id="join-game-btn">Join Game</button>
+            </div>
+
+            <div id="teacher-controls" class="hidden">
+                <h2>Teacher Control Panel</h2>
+                <textarea id="prompt-list-input" placeholder="Enter study words/phrases, separated by new lines (e.g., Photosynthesis, Mitochondria)"></textarea>
+                <button id="start-game-btn">Start Game</button>
+                <button id="end-game-btn" class="danger-btn">End Game</button>
+            </div>
+        </section>
+
+        <section id="game-screen" class="screen hidden">
+            <div id="live-leaderboard">
+                <h2>Live Scoreboard</h2>
+                <ul id="leaderboard-list">
+                    </ul>
+            </div>
+
+            <div id="drawing-game-area">
+                <div id="game-info">
+                    <span id="prompt-display" class="hidden">Draw: <strong id="current-prompt-word"></strong></span>
+                    <span id="game-timer">00:00 (Points: 100)</span>
+                </div>
+                
+                <div id="drawing-tools" class="hidden">
+                    <button class="tool-btn" data-tool="brush" data-color="#000000" title="Brush (Black)"></button>
+                    <button class="tool-btn" data-tool="brush" data-color="#ff0000" title="Red"></button>
+                    <button class="tool-btn" data-tool="brush" data-color="#00ff00" title="Green"></button>
+                    <button class="tool-btn" data-tool="brush" data-color="#0000ff" title="Blue"></button>
+                    <button class="tool-btn" data-tool="eraser" title="Eraser"></button>
+                    </div>
+
+                <canvas id="drawing-canvas" width="600" height="400"></canvas>
+            </div>
+
+            <div id="attempts-chat-area">
+                <h2>Guesses</h2>
+                <ul id="attempts-list">
+                    </ul>
+                <div id="guess-input-area">
+                    <input type="text" id="guess-input" placeholder="Type your guess here...">
+                    <button id="submit-guess-btn">Guess</button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="game-end-screen" class="screen hidden">
+            <h2>Game Over! 🏆</h2>
+            <div id="final-scores">
+                </div>
+            <button id="return-to-lobby-btn">New Game / Lobby</button>
+        </section>
+
+        <div id="message-overlay" class="hidden">
+            <h1 id="overlay-text"></h1>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics-compat.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
