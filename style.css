@@ -1,0 +1,302 @@
+:root {
+    --primary-color: #3f51b5; /* Indigo */
+    --secondary-color: #ff9800; /* Amber/Orange */
+    --accent-color: #f44336; /* Red for danger/errors */
+    --background-color: #f0f2f5;
+    --card-background: #ffffff;
+    --success-color: #4CAF50;
+    --text-color: #333;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align content to the top */
+    min-height: 100vh;
+    padding: 20px;
+}
+
+#app {
+    width: 100%;
+    max-width: 1200px;
+    background-color: var(--card-background);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.screen {
+    display: none;
+    padding: 20px;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* --- Lobby/Entry Screen --- */
+#lobby-screen {
+    text-align: center;
+}
+
+#lobby-screen h1 {
+    color: var(--primary-color);
+    margin-bottom: 30px;
+}
+
+#auth-area, #teacher-controls {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    max-width: 400px;
+}
+
+#auth-area input, #auth-area button, #teacher-controls textarea, #teacher-controls button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+#join-game-btn, #start-game-btn {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+#join-game-btn:hover, #start-game-btn:hover {
+    background-color: #5c6bc0;
+}
+
+.danger-btn {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.danger-btn:hover {
+    background-color: #e57373;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* --- Main Game Screen --- */
+#game-screen {
+    display: grid;
+    grid-template-columns: 1fr 2.5fr 1fr; /* Leaderboard | Game Area | Chat */
+    gap: 20px;
+    min-height: 600px;
+}
+
+#live-leaderboard, #attempts-chat-area {
+    background-color: var(--background-color);
+    padding: 15px;
+    border-radius: 6px;
+    overflow-y: auto;
+}
+
+#live-leaderboard h2, #attempts-chat-area h2 {
+    color: var(--primary-color);
+    margin-top: 0;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
+}
+
+#leaderboard-list {
+    list-style: none;
+    padding: 0;
+}
+
+#leaderboard-list li {
+    padding: 8px 0;
+    font-size: 1.1em;
+    border-bottom: 1px dashed #ccc;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+#leaderboard-list li:last-child {
+    border-bottom: none;
+}
+
+.is-drawer {
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+#drawing-game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game-info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#game-timer {
+    color: var(--secondary-color);
+}
+
+#prompt-display {
+    color: var(--accent-color);
+}
+
+#drawing-canvas {
+    border: 2px solid var(--primary-color);
+    background-color: white;
+    cursor: crosshair;
+    touch-action: none; /* Prevents mobile browser touch gestures on canvas */
+}
+
+#drawing-tools {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background: #eee;
+    border-radius: 4px;
+}
+
+.tool-btn {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.tool-btn:hover {
+    transform: scale(1.1);
+}
+
+.tool-btn[data-color="#000000"] { background-color: #000; }
+.tool-btn[data-color="#ff0000"] { background-color: #f00; }
+.tool-btn[data-color="#00ff00"] { background-color: #0f0; }
+.tool-btn[data-color="#0000ff"] { background-color: #00f; }
+
+.tool-btn[data-tool="eraser"] { 
+    background-color: white;
+    border: 2px solid var(--accent-color);
+    /* Simple icon for eraser */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="red" d="M16.24 3.56l4.24 4.24-11.23 11.23-4.24-4.24 11.23-11.23zm-.01 5.67l-2.83-2.83-1.41 1.41 2.83 2.83 1.41-1.41z"/></svg>');
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Attempts/Chat Area */
+#attempts-list {
+    list-style: none;
+    padding: 0;
+    height: 80%; /* Takes up most of the space */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse; /* Newest at the top */
+}
+
+#attempts-list li {
+    padding: 5px 0;
+    border-bottom: 1px dotted #ccc;
+}
+
+#guess-input-area {
+    display: flex;
+    margin-top: 10px;
+}
+
+#guess-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+#submit-guess-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+/* Game End Screen */
+#final-scores {
+    margin: 20px auto;
+    padding: 15px;
+    background-color: var(--background-color);
+    border-radius: 6px;
+    max-width: 500px;
+}
+
+#final-scores div {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Message Overlay */
+#message-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none; /* Allows clicks to pass through when hidden */
+}
+
+#message-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 800px) {
+    #game-screen {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+    }
+    #live-leaderboard {
+        order: 1; /* Top */
+    }
+    #drawing-game-area {
+        order: 2; /* Middle */
+    }
+    #attempts-chat-area {
+        order: 3; /* Bottom */
+    }
+
+    #drawing-canvas {
+        width: 100%; /* Make canvas fit mobile screen */
+        height: auto;
+    }
+}
